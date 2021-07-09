@@ -26,4 +26,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api', userRoutes);
 app.use('/api/auth', authRoutes);
 
+app.use(require('./middleware/handleErrors'));
+
 app.listen(5000, () => console.log('Server is listening at 5000'));
