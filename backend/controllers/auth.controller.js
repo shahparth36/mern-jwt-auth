@@ -1,8 +1,9 @@
-const User = require('../models/index').user;
 const bcrypt = require('bcrypt');
-const generateJwtToken = require('../tools/generateJwtToken');
+const User = require('../models/index').user;
 
-const register = async (req, res) => {
+const jwt = require('../tools/jwt');
+
+const register = async (req, res, next) => {
   try {
       const { email, password } = req.body;
     const userDetails = {
@@ -20,27 +21,62 @@ const register = async (req, res) => {
     else throw new Error("Couldn't create a Account");
     return res.status(200).json(newUser);
   } catch (error) {
-    res.status(400).json(error.message);
+    next(error);
   }
 };
 
-const authenticate = async (req, res) => {
+const authenticate = async (req, res, next) => {
   try {
     const { email, password } = req.body;
       const foundUser = await User.findOne({ email });
       if (foundUser && bcrypt.compareSync(password, foundUser.password)) {
-        const accessToken = generateJwtToken(foundUser);
+        const accessToken = jwt.generateJwtToken(foundUser);
+        const refreshToken = jwt.generateRefreshToken(foundUser);
         return res.status(200).json({
             ...foundUser.toJSON(),
             accessToken,
+            refreshToken,
         });
     } else throw Boom.forbidden('Credentials Invalid');
   } catch (error) {
-    res.status(403).json(error.message);
+    next(error);
+  }
+};
+
+const verifyRefreshToken = async (req, res, next) => {
+  try {
+    const newToken = await jwt.verifyRefreshToken(req.body.refreshToken);
+    const userId = newToken.production['x-user-id'];
+    const user = await User.findById(userId);
+    const newAccessToken = jwt.generateJwtToken(user);
+    const newRefreshToken = jwt.generateRefreshToken(user);
+    return res.status(200).json({
+      ...user.toJSON(),
+      newAccessToken,
+      newRefreshToken,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getNewToken = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.body.userId);
+    const newAccessToken = jwt.generateJwtToken(user);
+    const newRefreshToken = jwt.generateRefreshToken(user);
+    return res.status(200).json({
+      newAccessToken,
+      newRefreshToken,
+    });
+  } catch (error) {
+    next(error);
   }
 };
 
 module.exports = {
   register,
   authenticate,
+  verifyRefreshToken,
+  getNewToken,
 };

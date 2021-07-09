@@ -13,6 +13,7 @@ function Home() {
                 const response = await axios.get('http://localhost:5000/api/all-users');
                 setAllUsers(response.data);
             } catch (error) {
+                console.log(error.response);
                 if (error.response.statusText === 'Unauthorized') {
                     navigate('/login');
                 }

@@ -18,6 +18,46 @@ axios.interceptors.request.use(
   }
 );
 
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  function (error) {
+    const originalRequest = error.config;
+    console.log(error.response);
+    if (
+      error.response.status === 401 &&
+      originalRequest.url === 'http://localhost:5000/api/auth/refresh-token'
+    ) {
+        window.history.pushState({}, '', 'http://localhost:3000/login');
+        return Promise.reject(error);
+    }
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      return axios
+        .post('http://localhost:5000/api/auth/refresh-token', {
+          refreshToken: window.localStorage.getItem('refreshToken'),
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            window.localStorage.setItem('accessToken', res.data.newAccessToken);
+            window.localStorage.setItem(
+              'refreshToken',
+              res.data.newRefreshToken
+            );
+
+            axios.defaults.headers.common['Authorization'] =
+              'Bearer ' + window.localStorage.getItem('accessToken');
+
+            return axios(originalRequest);
+          }
+        });
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 
 ReactDOM.render(
   <Router>

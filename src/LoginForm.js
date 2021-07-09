@@ -18,9 +18,9 @@ function LoginForm() {
                 `http://localhost:5000/api/auth/login`,
                 user
             );
-            console.log(response.data);
             if (response.status === 200) {
                 window.localStorage.setItem('accessToken', response.data.accessToken);
+                window.localStorage.setItem('refreshToken', response.data.refreshToken);
                 navigate(`/home`); 
             }
         } catch (error) {
