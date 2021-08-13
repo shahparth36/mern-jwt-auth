@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import GoogleLogin from 'react-google-login';
 
 function LoginForm() {
     const navigate = useNavigate();
@@ -28,6 +29,10 @@ function LoginForm() {
         }
     };
 
+    const responseGoogle = async (response) => {
+        console.log(response);
+    }
+
     return (
         <div>
             <h1>Login Form</h1>
@@ -37,6 +42,13 @@ function LoginForm() {
             <input type="password" name="password" value={user.password} onChange={handleChange} />
             <div>
                 <button onClick={handleClick}>Login</button>
+                <GoogleLogin
+                    clientId="CLIENT ID" 
+                    buttonText="Login"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                />
             </div>
             <Link to="/register">Register?</Link>
         </div>
