@@ -41,9 +41,18 @@ const getNewToken = async (req, res, next) => {
   }
 };
 
+const verifyUser = async (req, res, next) => {
+  try {
+    return res.status(200).json(req.user);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   register,
   authenticate,
   verifyRefreshToken,
   getNewToken,
+  verifyUser,
 };
