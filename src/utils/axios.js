@@ -36,7 +36,7 @@ axiosInstance.interceptors.response.use(
     ) {
       originalRequest._retry = true;
       return axios
-        .post(`${baseURL}/auth/refresh-token`, {
+        .post(`/auth/refresh-token`, {
           refreshToken: window.localStorage.getItem("refreshToken"),
         })
         .then((res) => {

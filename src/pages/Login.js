@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 
 import axios from "../utils/axios";
-import baseURL from "../utils/baseURL";
 import { isLoggedIn } from "../utils/auth";
 
 function LoginForm() {
@@ -34,7 +33,7 @@ function LoginForm() {
   const handleClick = async (evt) => {
     try {
       evt.preventDefault();
-      const response = await axios.post(`${baseURL}/auth/login`, user);
+      const response = await axios.post(`/auth/login`, user);
       if (response.status === 200) {
         window.localStorage.setItem("accessToken", response.data.accessToken);
         window.localStorage.setItem("refreshToken", response.data.refreshToken);
