@@ -56,7 +56,7 @@ const _verifyRefreshToken = async ({ refreshToken }) => {
       newRefreshToken,
     };
   } catch (error) {
-    next(error);
+    throw Boom.unauthorized(error.message);
   }
 };
 
@@ -70,7 +70,7 @@ const _getNewToken = async ({ userId }) => {
       newRefreshToken,
     };
   } catch (error) {
-    next(error);
+    throw Boom.unauthorized(error.message);
   }
 };
 

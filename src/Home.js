@@ -15,8 +15,7 @@ function Home() {
         const response = await axios.get(`${baseURL}/all-users`);
         setAllUsers(response.data);
       } catch (error) {
-        console.log(error.response);
-        if (error.response.statusText === "Unauthorized") {
+        if (error.response.data.type === "Unauthorized") {
           navigate("/login");
         }
       }
