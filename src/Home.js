@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import axios from "./utils/axios";
+import baseURL from "./utils/baseURL";
 
 function Home() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("http://localhost:5000/api/all-users");
+        const response = await axios.get(`${baseURL}/all-users`);
         setAllUsers(response.data);
       } catch (error) {
         console.log(error.response);

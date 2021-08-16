@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import axios from "./utils/axios";
+import baseURL from "./utils/baseURL";
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -14,10 +15,7 @@ function RegisterForm() {
   const handleClick = async (evt) => {
     try {
       evt.preventDefault();
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
-        user
-      );
+      const response = await axios.post(`${baseURL}/auth/register`, user);
       if (response.status === 200) {
         navigate("/login");
       }

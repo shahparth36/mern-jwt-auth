@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import axios from "./utils/axios";
+import baseURL from "./utils/baseURL";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -15,10 +16,7 @@ function LoginForm() {
   const handleClick = async (evt) => {
     try {
       evt.preventDefault();
-      const response = await axios.post(
-        `http://localhost:5000/api/auth/login`,
-        user
-      );
+      const response = await axios.post(`${baseURL}/auth/login`, user);
       if (response.status === 200) {
         window.localStorage.setItem("accessToken", response.data.accessToken);
         window.localStorage.setItem("refreshToken", response.data.refreshToken);
