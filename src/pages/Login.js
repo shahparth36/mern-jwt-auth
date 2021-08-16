@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import axios from "./utils/axios";
-import baseURL from "./utils/baseURL";
+import axios from "../utils/axios";
+import baseURL from "../utils/baseURL";
 
 function LoginForm() {
   const navigate = useNavigate();

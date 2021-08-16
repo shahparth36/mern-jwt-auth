@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import axios from "./utils/axios";
-import baseURL from "./utils/baseURL";
+import axios from "../utils/axios";
+import baseURL from "../utils/baseURL";
 
 function Home() {
   const navigate = useNavigate();

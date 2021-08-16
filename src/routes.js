@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
 
-import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm";
-import Home from "./Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
 
 const routes = [
   {
@@ -11,11 +11,11 @@ const routes = [
   },
   {
     path: "/login",
-    element: <LoginForm />,
+    element: <Login />,
   },
   {
     path: "/register",
-    element: <RegisterForm />,
+    element: <Register />,
   },
   {
     path: "/home",
