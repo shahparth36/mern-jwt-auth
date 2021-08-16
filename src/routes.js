@@ -1,24 +1,24 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
-import Home from './Home';
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
+import Home from "./Home";
 
 const routes = [
   {
-    path: '/',
+    path: "/",
     element: <Navigate to="/login" />,
   },
   {
-    path: '/login',
+    path: "/login",
     element: <LoginForm />,
   },
   {
-    path: '/register',
+    path: "/register",
     element: <RegisterForm />,
   },
   {
-    path: '/home',
+    path: "/home",
     element: <Home />,
   },
 ];

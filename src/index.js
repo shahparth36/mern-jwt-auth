@@ -1,15 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router } from 'react-router-dom'
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import axios from 'axios';
+import axios from "axios";
 
 axios.interceptors.request.use(
   (req) => {
-    const accessToken = window.localStorage.getItem('accessToken');
+    const accessToken = window.localStorage.getItem("accessToken");
     req.headers = { Authorization: `Bearer ${accessToken}` };
     return req;
   },
@@ -27,27 +27,27 @@ axios.interceptors.response.use(
     console.log(error.response);
     if (
       error.response.status === 401 &&
-      originalRequest.url === 'http://localhost:5000/api/auth/refresh-token'
+      originalRequest.url === "http://localhost:5000/api/auth/refresh-token"
     ) {
-        window.history.pushState({}, '', 'http://localhost:3000/login');
-        return Promise.reject(error);
+      window.history.pushState({}, "", "http://localhost:3000/login");
+      return Promise.reject(error);
     }
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       return axios
-        .post('http://localhost:5000/api/auth/refresh-token', {
-          refreshToken: window.localStorage.getItem('refreshToken'),
+        .post("http://localhost:5000/api/auth/refresh-token", {
+          refreshToken: window.localStorage.getItem("refreshToken"),
         })
         .then((res) => {
           if (res.status === 200) {
-            window.localStorage.setItem('accessToken', res.data.newAccessToken);
+            window.localStorage.setItem("accessToken", res.data.newAccessToken);
             window.localStorage.setItem(
-              'refreshToken',
+              "refreshToken",
               res.data.newRefreshToken
             );
 
-            axios.defaults.headers.common['Authorization'] =
-              'Bearer ' + window.localStorage.getItem('accessToken');
+            axios.defaults.headers.common["Authorization"] =
+              "Bearer " + window.localStorage.getItem("accessToken");
 
             return axios(originalRequest);
           }
@@ -58,12 +58,11 @@ axios.interceptors.response.use(
   }
 );
 
-
 ReactDOM.render(
   <Router>
     <App />
   </Router>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
