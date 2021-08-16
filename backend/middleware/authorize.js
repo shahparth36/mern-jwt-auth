@@ -1,8 +1,8 @@
-const Boom = require('@hapi/boom');
-const expressJwt = require('express-jwt');
-const get = require('lodash.get');
-const User = require('../models').user;
-const token = require('../constants/token');
+const Boom = require("@hapi/boom");
+const expressJwt = require("express-jwt");
+const get = require("lodash.get");
+const User = require("../models").user;
+const token = require("../constants/token");
 
 const secret = JSON.parse(process.env.JWT_SECRET);
 
@@ -14,15 +14,15 @@ const authorize = () => {
       const userId = get(req, `user['${token.TOKEN_KEY}'].x-user-id`, null);
 
       if (!userId) {
-        return next(Boom.unauthorized('Unauthorized'));
+        return next(Boom.unauthorized("Unauthorized"));
       }
 
       const user = await User.findById(userId);
 
       if (!user) {
-        return next(Boom.unauthorized('Unauthorized'));
+        return next(Boom.unauthorized("Unauthorized"));
       }
-    
+
       req.user = user;
 
       next();

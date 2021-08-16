@@ -14,8 +14,8 @@
 
 // If using local mongo
 
-const dbname = 'jwtauth-testing';
+const dbname = "jwtauth-testing";
 
 module.exports = {
-    url: `mongodb://localhost/${dbname}`,
-}
+  url: `mongodb://localhost/${dbname}`,
+};
